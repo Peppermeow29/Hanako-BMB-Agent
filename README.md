@@ -1,3 +1,5 @@
+![Hanako-BMB-Agent](.github/assets/readme-header.png)
+
 ## 快速开始
 
 ### 从源码运行
