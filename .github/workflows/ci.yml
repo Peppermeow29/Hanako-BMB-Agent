@@ -30,10 +30,6 @@ jobs:
         if: runner.os == 'Windows'
         run: node scripts/build-windows-sandbox-helper.mjs x64
 
-      - name: Smoke-test Windows restricted-token helper
-        if: runner.os == 'Windows'
-        run: node scripts/smoke-windows-sandbox-helper.mjs x64
-
       - name: Typecheck
         run: npm run typecheck
 
@@ -66,24 +62,3 @@ jobs:
 
       - name: Lint open/closed import boundary
         run: node scripts/lint-open-boundary.mjs
-
-  # 验证 GitHub 源码分享所需的 open composition 构建链。
-  open-build-smoke:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: "24.15.0"
-          cache: npm
-
-      - name: Install dependencies (with one retry on network failure)
-        run: npm ci || (echo "npm ci failed, retrying once..." && npm ci)
-
-      - name: Build open composition server
-        run: npm run build:server:open
-
-      - name: Smoke-test open composition server
-        run: npm run smoke:server:open

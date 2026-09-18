@@ -226,7 +226,3 @@ first-match-wins 的实际匹配次序。改数组顺序时同步改这张表。
 | [`deepseek-thinking-budget.ts`](deepseek-thinking-budget.ts) | 仅在 DeepSeek 请求完全没带预算时补一个值；**不覆盖** Pi SDK `clampMaxTokensToContext` 算好的既有预算 | DeepSeek 请求缺预算时服务端有明确默认，或 SDK 始终携带预算 |
 
 子模块的对外 API 仅有 `matches` 和 `apply` 两个 export。其它 export（如 replay helper 的 `extractReasoningFromContent`、`ensureReasoningContentForToolCalls`）属于实现细节、仅供同文件和单元测试访问，**不构成对外契约**。升级 SDK 想删 helper 时不需顾虑外部依赖。
-
-## 历史背景
-
-本架构由 commit `2a9ea17`（README 奠基）至 `0d87520`（llm-client 收口）一系列 commit 引入，根因来自 issue [#468](https://github.com/Peppermeow29/openhanako/issues/468) 的 DeepSeek 思考模式 400。
