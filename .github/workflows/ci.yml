@@ -1,0 +1,89 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  test:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [macos-latest, windows-latest]
+        node-version: ["24.15.0"]
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build Windows sandbox helper
+        if: runner.os == 'Windows'
+        run: node scripts/build-windows-sandbox-helper.mjs x64
+
+      - name: Smoke-test Windows restricted-token helper
+        if: runner.os == 'Windows'
+        run: node scripts/smoke-windows-sandbox-helper.mjs x64
+
+      - name: Typecheck
+        run: npm run typecheck
+
+      - name: Lint
+        run: npm run lint
+
+      - name: Build packages
+        run: npm run build:packages
+
+      - name: Build renderer
+        run: npm run build:renderer
+
+      - name: Run tests
+        run: npm test
+
+  # 独立边界 lint，快速验证开源 composition 的导入边界。
+  lint-open-boundary:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "24.15.0"
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Lint open/closed import boundary
+        run: node scripts/lint-open-boundary.mjs
+
+  # 验证 GitHub 源码分享所需的 open composition 构建链。
+  open-build-smoke:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "24.15.0"
+          cache: npm
+
+      - name: Install dependencies (with one retry on network failure)
+        run: npm ci || (echo "npm ci failed, retrying once..." && npm ci)
+
+      - name: Build open composition server
+        run: npm run build:server:open
+
+      - name: Smoke-test open composition server
+        run: npm run smoke:server:open

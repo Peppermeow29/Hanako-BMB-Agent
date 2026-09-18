@@ -1,0 +1,4 @@
+interface:
+  display_name: "Hana Plugin Creator"
+  short_description: "Plan Hana plugins with UI, Session, Agent, model, and media APIs"
+  default_prompt: "Help me create a Hana plugin. Start with the right beginner or developer flow, then choose the needed plugin capabilities."

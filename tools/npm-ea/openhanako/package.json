@@ -1,0 +1,20 @@
+{
+  "name": "openhanako",
+  "version": "0.0.1",
+  "description": "Companion distribution name for HanaAgent — a personal AI agent with memory and soul. Early access; aliases the primary `hanaagent` package from the 1.0 release.",
+  "license": "Apache-2.0",
+  "type": "module",
+  "bin": {
+    "openhanako": "cli.mjs"
+  },
+  "files": [
+    "cli.mjs",
+    "README.md"
+  ],
+  "engines": {
+    "node": ">=18"
+  },
+  "keywords": [
+    "hanaagent"
+  ]
+}

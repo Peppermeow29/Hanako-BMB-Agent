@@ -1,0 +1,65 @@
+/* ========================================
+   Titlebar 标签组
+   ======================================== */
+.tbTabs {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    pointer-events: auto;
+    -webkit-app-region: no-drag;
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    background: var(--overlay-light);
+    border-radius: var(--radius-md);
+    padding: var(--space-2);
+}
+
+.tbTabsSlider {
+    position: absolute;
+    top: var(--space-2);
+    bottom: var(--space-2);
+    border-radius: var(--radius-sm);
+    background: var(--tab-slider-bg, var(--bg-card));
+    box-shadow: var(--tab-slider-shadow, 0 1px 3px var(--shadow));
+    transition: transform var(--duration-slow) cubic-bezier(0.4, 0, 0.2, 1),
+                width var(--duration-slow) cubic-bezier(0.4, 0, 0.2, 1);
+    z-index: 0;
+}
+
+.tbTab {
+    position: relative;
+    z-index: 1;
+    padding: var(--space-4) var(--space-12);
+    border: none;
+    border-radius: var(--radius-sm);
+    background: transparent;
+    color: var(--text-muted);
+    font-family: var(--font-ui);
+    font-size: var(--fs-caption);
+    font-weight: 500;
+    cursor: default;
+    transition: color var(--duration-fast) var(--ease-out);
+    display: flex;
+    align-items: center;
+    gap: var(--space-6);
+    white-space: nowrap;
+}
+
+.tbTab:hover {
+    color: var(--text-light);
+}
+
+.tbTabActive {
+    color: var(--text);
+}
+
+
+/* ── Drag states ── */
+.tbTabDragging {
+    opacity: 0.4;
+}
+
+.tbTabDragOver {
+    box-shadow: inset 2px 0 0 var(--accent);
+}
